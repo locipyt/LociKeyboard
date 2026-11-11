@@ -1,14 +1,10 @@
 package com.loci.keyboard;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.Intent;
 import android.inputmethodservice.InputMethodService;
-import android.provider.Settings;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputConnection;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,10 +13,10 @@ public class LociKeyboardService extends InputMethodService {
     
     private final Map<String, String> dictionary = new HashMap<>();
     private boolean isTranslateEnabled = true;
-    private boolean isShiftPressed = false;
+    private boolean isRussian = true; // Текущий язык (RU/EN)
 
     private void initDictionary() {
-        // --- 1. ПРИВЕТСТВИЯ ---
+        // --- ПРИВЕТСТВИЯ ---
         dictionary.put("привет", "Ло");
         dictionary.put("приветик", "Локи");
         dictionary.put("здравствуй", "Ло");
@@ -34,7 +30,7 @@ public class LociKeyboardService extends InputMethodService {
         dictionary.put("извини", "Ми Кило");
         dictionary.put("прости", "Ми Кило");
 
-        // --- 2. ОТВЕТЫ / СОГЛАСИЕ ---
+        // --- ОТВЕТЫ ---
         dictionary.put("да", "Ки");
         dictionary.put("нет", "Но");
         dictionary.put("хорошо", "Лока");
@@ -48,7 +44,7 @@ public class LociKeyboardService extends InputMethodService {
         dictionary.put("окей", "Ки");
         dictionary.put("конечно", "Ки Лока");
 
-        // --- 3. МЕСТОИМЕНИЯ ---
+        // --- МЕСТОИМЕНИЯ ---
         dictionary.put("я", "Ми");
         dictionary.put("ты", "Ти");
         dictionary.put("он", "Ли");
@@ -60,7 +56,7 @@ public class LociKeyboardService extends InputMethodService {
         dictionary.put("твой", "Ти");
         dictionary.put("наш", "Мили");
 
-        // --- 4. ЛЮДИ И РОЛИ ---
+        // --- ЛЮДИ ---
         dictionary.put("друг", "Или");
         dictionary.put("друзья", "Или");
         dictionary.put("учитель", "Учи");
@@ -71,7 +67,7 @@ public class LociKeyboardService extends InputMethodService {
         dictionary.put("котик", "Кико");
         dictionary.put("коти", "Кико");
 
-        // --- 5. ЧУВСТВА И ЭМОЦИИ ---
+        // --- ЧУВСТВА ---
         dictionary.put("люблю", "Кои");
         dictionary.put("нравится", "Кои");
         dictionary.put("обожаю", "Кои Кои");
@@ -86,7 +82,7 @@ public class LociKeyboardService extends InputMethodService {
         dictionary.put("хочу к тебе", "Ми Кои Ти");
         dictionary.put("ты лучший", "Ти Лока Лока");
 
-        // --- 6. МИЛЫЕ СЛОВА ---
+        // --- МИЛЫЕ СЛОВА ---
         dictionary.put("любимка", "Кои");
         dictionary.put("любимая", "Кои");
         dictionary.put("любимый", "Кои");
@@ -110,7 +106,7 @@ public class LociKeyboardService extends InputMethodService {
         dictionary.put("целую", "Ми Кои Ти");
         dictionary.put("поцелую", "Ми Кои Ти");
 
-        // --- 7. ДЕЙСТВИЯ ---
+        // --- ДЕЙСТВИЯ ---
         dictionary.put("идти", "Сити");
         dictionary.put("идем", "Сити");
         dictionary.put("пойдем", "Сити");
@@ -128,7 +124,7 @@ public class LociKeyboardService extends InputMethodService {
         dictionary.put("хочу спать", "Ми Кои Луми Но");
         dictionary.put("иду домой", "Ми Сити Дом");
 
-        // --- 8. ВОПРОСЫ ---
+        // --- ВОПРОСЫ ---
         dictionary.put("где", "Кито");
         dictionary.put("как дела", "Лок Лока");
         dictionary.put("как", "Кбк");
@@ -140,7 +136,7 @@ public class LociKeyboardService extends InputMethodService {
         dictionary.put("как ты", "Ти Лока");
         dictionary.put("что делаешь", "Ти Лок");
 
-        // --- 9. ИГРОВОЕ ---
+        // --- ИГРЫ ---
         dictionary.put("роблокс", "Роблокс");
         dictionary.put("майнкрафт", "Майн");
         dictionary.put("победа", "Вик");
@@ -150,7 +146,7 @@ public class LociKeyboardService extends InputMethodService {
         dictionary.put("я в майне", "Ми Ин Майн");
         dictionary.put("читер", "Кило Или");
 
-        // --- 10. РУГАТЕЛЬСТВА ---
+        // --- РУГАТЕЛЬСТВА ---
         dictionary.put("дурак", "Кило Или");
         dictionary.put("тупой", "Но Лок");
         dictionary.put("отвали", "Сити Но");
@@ -163,107 +159,86 @@ public class LociKeyboardService extends InputMethodService {
 
         View view = getLayoutInflater().inflate(R.layout.keyboard_layout, null);
 
-        // --- БУКВЫ ---
-        int[] letterIds = {
+        LinearLayout rowRu1 = view.findViewById(R.id.rowRu1);
+        LinearLayout rowRu2 = view.findViewById(R.id.rowRu2);
+        LinearLayout rowRu3 = view.findViewById(R.id.rowRu3);
+        LinearLayout rowEn1 = view.findViewById(R.id.rowEn1);
+        LinearLayout rowEn2 = view.findViewById(R.id.rowEn2);
+        LinearLayout rowEn3 = view.findViewById(R.id.rowEn3);
+
+        int[] ruIds = {
             R.id.k_й, R.id.k_ц, R.id.k_у, R.id.k_к, R.id.k_е, R.id.k_н, R.id.k_г, R.id.k_ш, R.id.k_щ, R.id.k_з, R.id.k_х, R.id.k_ъ,
             R.id.k_ф, R.id.k_ы, R.id.k_в, R.id.k_а, R.id.k_п, R.id.k_р, R.id.k_о, R.id.k_л, R.id.k_д, R.id.k_ж, R.id.k_э,
             R.id.k_я, R.id.k_ч, R.id.k_с, R.id.k_м, R.id.k_и, R.id.k_т, R.id.k_ь, R.id.k_б, R.id.k_ю
         };
-        
-        String[] letters = {
+        String[] ruLetters = {
             "й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "х", "ъ",
             "ф", "ы", "в", "а", "п", "р", "о", "л", "д", "ж", "э",
             "я", "ч", "с", "м", "и", "т", "ь", "б", "ю"
         };
 
-        for (int i = 0; i < letterIds.length; i++) {
-            final String letter = letters[i];
-            view.findViewById(letterIds[i]).setOnClickListener(v -> {
+        int[] enIds = {
+            R.id.e_q, R.id.e_w, R.id.e_e, R.id.e_r, R.id.e_t, R.id.e_y, R.id.e_u, R.id.e_i, R.id.e_o, R.id.e_p,
+            R.id.e_a, R.id.e_s, R.id.e_d, R.id.e_f, R.id.e_g, R.id.e_h, R.id.e_j, R.id.e_k, R.id.e_l,
+            R.id.e_z, R.id.e_x, R.id.e_c, R.id.e_v, R.id.e_b, R.id.e_n, R.id.e_m
+        };
+        String[] enLetters = {
+            "q", "w", "e", "r", "t", "y", "u", "i", "o", "p",
+            "a", "s", "d", "f", "g", "h", "j", "k", "l",
+            "z", "x", "c", "v", "b", "n", "m"
+        };
+
+        for (int i = 0; i < ruIds.length; i++) {
+            final String letter = ruLetters[i];
+            view.findViewById(ruIds[i]).setOnClickListener(v -> {
                 InputConnection ic = getCurrentInputConnection();
-                if (ic != null) {
-                    String textToInsert = isShiftPressed ? letter.toUpperCase() : letter;
-                    ic.commitText(textToInsert, 1);
-                    if (isShiftPressed) isShiftPressed = false; // Сброс Shift
-                }
+                if (ic != null) ic.commitText(letter, 1);
             });
         }
 
-        // --- ШЕСТЕРЕНКА (Настройки) ---
+        for (int i = 0; i < enIds.length; i++) {
+            final String letter = enLetters[i];
+            view.findViewById(enIds[i]).setOnClickListener(v -> {
+                InputConnection ic = getCurrentInputConnection();
+                if (ic != null) ic.commitText(letter, 1);
+            });
+        }
+
+        // Смена языка
+        view.findViewById(R.id.btnLang).setOnClickListener(v -> {
+            isRussian = !isRussian;
+            if (isRussian) {
+                rowRu1.setVisibility(View.VISIBLE); rowRu2.setVisibility(View.VISIBLE); rowRu3.setVisibility(View.VISIBLE);
+                rowEn1.setVisibility(View.GONE); rowEn2.setVisibility(View.GONE); rowEn3.setVisibility(View.GONE);
+            } else {
+                rowRu1.setVisibility(View.GONE); rowRu2.setVisibility(View.GONE); rowRu3.setVisibility(View.GONE);
+                rowEn1.setVisibility(View.VISIBLE); rowEn2.setVisibility(View.VISIBLE); rowEn3.setVisibility(View.VISIBLE);
+            }
+        });
+
+        // Настройки (Переход в приложение)
         view.findViewById(R.id.btnSettings).setOnClickListener(v -> {
-            Intent intent = new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS);
+            Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         });
 
-        // --- КОПИРОВАТЬ ---
-        view.findViewById(R.id.btnCopy).setOnClickListener(v -> {
-            InputConnection ic = getCurrentInputConnection();
-            if (ic != null) {
-                CharSequence text = ic.getSelectedText(0);
-                if (text != null) {
-                    ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("Loci", text);
-                    clipboard.setPrimaryClip(clip);
-                    Toast.makeText(this, "Скопировано", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        // --- ВСТАВИТЬ ---
-        view.findViewById(R.id.btnPaste).setOnClickListener(v -> {
-            InputConnection ic = getCurrentInputConnection();
-            if (ic != null) {
-                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                if (clipboard.hasPrimaryClip()) {
-                    ClipData.Item item = clipboard.getPrimaryClip().getItemAt(0);
-                    ic.commitText(item.getText(), 1);
-                }
-            }
-        });
-
-        // --- СМАЙЛИКИ ---
+        // Смайлики
         view.findViewById(R.id.btnEmoji).setOnClickListener(v -> {
             InputConnection ic = getCurrentInputConnection();
-            if (ic != null) {
-                String[] emojis = {"😊", "😸", "❤️", "✨", "🐱", "💖", "🥺", "🔥", "😎", "🌸", "😻", "💕"};
-                String randomEmoji = emojis[(int) (Math.random() * emojis.length)];
-                ic.commitText(randomEmoji, 1);
-            }
+            if (ic != null) ic.commitText("😊", 1);
         });
 
-        // --- SHIFT (Заглавные) ---
-        view.findViewById(R.id.btnShift).setOnClickListener(v -> {
-            isShiftPressed = !isShiftPressed;
-            Toast.makeText(this, isShiftPressed ? "Caps: ВКЛ" : "Caps: ВЫКЛ", Toast.LENGTH_SHORT).show();
-        });
-
-        // --- УДАЛИТЬ СЛОВО ---
-        view.findViewById(R.id.btnDelWord).setOnClickListener(v -> {
+        // Корзина (удаляет по 1 букве)
+        view.findViewById(R.id.btnBackspace).setOnClickListener(v -> {
             InputConnection ic = getCurrentInputConnection();
             if (ic != null) {
-                CharSequence beforeText = ic.getTextBeforeCursor(30, 0);
-                if (beforeText != null) {
-                    String text = beforeText.toString();
-                    int lastSpace = text.lastIndexOf(' ');
-                    if (lastSpace != -1) {
-                        ic.deleteSurroundingText(text.length() - lastSpace, 0);
-                    } else {
-                        ic.deleteSurroundingText(text.length(), 0);
-                    }
-                }
+                if (ic.getSelectedText(0) == null) ic.deleteSurroundingText(1, 0);
+                else ic.commitText("", 1);
             }
         });
 
-        // --- ENTER ---
-        view.findViewById(R.id.btnEnter).setOnClickListener(v -> {
-            InputConnection ic = getCurrentInputConnection();
-            if (ic != null) {
-                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
-                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_ENTER));
-            }
-        });
-
-        // --- ПРОБЕЛ + ПЕРЕВОД ---
+        // ПРОБЕЛ + ПЕРЕВОД
         View btnSpace = view.findViewById(R.id.btnSpace);
         btnSpace.setOnClickListener(v -> {
             InputConnection ic = getCurrentInputConnection();
@@ -287,10 +262,10 @@ public class LociKeyboardService extends InputMethodService {
             ic.commitText(" ", 1);
         });
 
-        // --- ДОЛГОЕ НАЖАТИЕ НА ПРОБЕЛ (Вкл/Выкл перевод) ---
+        // Долгое нажатие на пробел (Вкл/Выкл перевод)
         btnSpace.setOnLongClickListener(v -> {
             isTranslateEnabled = !isTranslateEnabled;
-            Toast.makeText(this, isTranslateEnabled ? "Автоперевод ВКЛ" : "Автоперевод ВЫКЛ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, isTranslateEnabled ? "Перевод ВКЛ" : "Перевод ВЫКЛ", Toast.LENGTH_SHORT).show();
             return true;
         });
 

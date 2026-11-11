@@ -19,8 +19,8 @@
         <Button android:id="@+id/btnPaste" android:layout_width="40dp" android:layout_height="40dp" android:text="📥" android:textSize="20sp" android:textColor="#FFFFFF" android:backgroundTint="#00000000" android:background="@null" />
     </LinearLayout>
 
-    <!-- Ряд 1 -->
-    <LinearLayout android:layout_width="match_parent" android:layout_height="50dp" android:orientation="horizontal">
+    <!-- РЯД 1 (Русский) -->
+    <LinearLayout android:id="@+id/rowRu1" android:layout_width="match_parent" android:layout_height="50dp" android:orientation="horizontal">
         <Button android:id="@+id/k_й" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="й" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
         <Button android:id="@+id/k_ц" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="ц" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
         <Button android:id="@+id/k_у" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="у" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
@@ -35,8 +35,22 @@
         <Button android:id="@+id/k_ъ" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="ъ" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
     </LinearLayout>
 
-    <!-- Ряд 2 -->
-    <LinearLayout android:layout_width="match_parent" android:layout_height="50dp" android:orientation="horizontal">
+    <!-- РЯД 1 (Английский, скрыт) -->
+    <LinearLayout android:id="@+id/rowEn1" android:layout_width="match_parent" android:layout_height="50dp" android:orientation="horizontal" android:visibility="gone">
+        <Button android:id="@+id/e_q" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="q" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_w" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="w" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_e" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="e" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_r" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="r" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_t" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="t" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_y" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="y" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_u" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="u" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_i" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="i" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_o" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="o" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_p" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="p" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+    </LinearLayout>
+
+    <!-- РЯД 2 (Русский) -->
+    <LinearLayout android:id="@+id/rowRu2" android:layout_width="match_parent" android:layout_height="50dp" android:orientation="horizontal">
         <Button android:id="@+id/k_ф" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="ф" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
         <Button android:id="@+id/k_ы" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="ы" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
         <Button android:id="@+id/k_в" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="в" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
@@ -50,11 +64,21 @@
         <Button android:id="@+id/k_э" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="э" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
     </LinearLayout>
 
-    <!-- Ряд 3 -->
-    <LinearLayout android:layout_width="match_parent" android:layout_height="50dp" android:orientation="horizontal">
-        <!-- Кнопка Shift -->
-        <Button android:id="@+id/btnShift" android:layout_width="0dp" android:layout_weight="1.5" android:layout_height="match_parent" android:text="⬆" android:textSize="20sp" android:textColor="#FFFFFF" android:backgroundTint="#555555" android:layout_margin="2dp"/>
-        
+    <!-- РЯД 2 (Английский, скрыт) -->
+    <LinearLayout android:id="@+id/rowEn2" android:layout_width="match_parent" android:layout_height="50dp" android:orientation="horizontal" android:visibility="gone">
+        <Button android:id="@+id/e_a" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="a" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_s" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="s" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_d" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="d" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_f" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="f" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_g" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="g" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_h" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="h" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_j" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="j" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_k" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="k" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_l" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="l" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+    </LinearLayout>
+
+    <!-- РЯД 3 (Русский) -->
+    <LinearLayout android:id="@+id/rowRu3" android:layout_width="match_parent" android:layout_height="50dp" android:orientation="horizontal">
         <Button android:id="@+id/k_я" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="я" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
         <Button android:id="@+id/k_ч" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="ч" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
         <Button android:id="@+id/k_с" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="с" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
@@ -64,14 +88,29 @@
         <Button android:id="@+id/k_ь" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="ь" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
         <Button android:id="@+id/k_б" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="б" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
         <Button android:id="@+id/k_ю" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="ю" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
-        
-        <!-- Кнопка стереть слово -->
-        <Button android:id="@+id/btnDelWord" android:layout_width="0dp" android:layout_weight="1.5" android:layout_height="match_parent" android:text="🗑" android:textSize="20sp" android:textColor="#FFFFFF" android:backgroundTint="#F44336" android:layout_margin="2dp"/>
     </LinearLayout>
 
-    <!-- Нижний ряд: Пробел по центру -->
-    <LinearLayout android:layout_width="match_parent" android:layout_height="50dp" android:orientation="horizontal" android:gravity="center">
-        <Button android:id="@+id/btnSpace" android:layout_width="0dp" android:layout_weight="4" android:layout_height="match_parent" android:text="ПРОБЕЛ (Удерживай для вкл/выкл перевода)" android:textSize="14sp" android:textColor="#FFFFFF" android:backgroundTint="#673AB7" android:layout_margin="2dp"/>
-        <Button android:id="@+id/btnEnter" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="⏎" android:textSize="20sp" android:textColor="#FFFFFF" android:backgroundTint="#4CAF50" android:layout_margin="2dp"/>
+    <!-- РЯД 3 (Английский, скрыт) -->
+    <LinearLayout android:id="@+id/rowEn3" android:layout_width="match_parent" android:layout_height="50dp" android:orientation="horizontal" android:visibility="gone">
+        <Button android:id="@+id/e_z" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="z" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_x" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="x" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_c" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="c" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_v" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="v" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_b" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="b" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_n" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="n" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+        <Button android:id="@+id/e_m" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="m" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+    </LinearLayout>
+
+    <!-- РЯД 4: Кнопки действий (Глобус, Пробел, Корзина) -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="50dp" android:orientation="horizontal" android:gravity="center_vertical">
+        
+        <!-- Кнопка смены языка (Глобус) -->
+        <Button android:id="@+id/btnLang" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:text="🌐" android:textSize="24sp" android:textColor="#FFFFFF" android:backgroundTint="#9C27B0" android:layout_margin="2dp"/>
+
+        <!-- Пробел -->
+        <Button android:id="@+id/btnSpace" android:layout_width="0dp" android:layout_weight="4" android:layout_height="match_parent" android:text="" android:textSize="18sp" android:textColor="#FFFFFF" android:backgroundTint="#333333" android:layout_margin="2dp"/>
+
+        <!-- Корзина (Удаляет по букве) -->
+        <Button android:id="@+id/btnBackspace" android:layout_width="0dp" android:layout_weight="1.5" android:layout_height="match_parent" android:text="⌫" android:textSize="22sp" android:textColor="#FFFFFF" android:backgroundTint="#F44336" android:layout_margin="2dp"/>
     </LinearLayout>
 </LinearLayout>

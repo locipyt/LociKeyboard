@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#1A0B2E"
+    android:padding="8dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Loci Keyboard"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Кнопки для быстрого ввода -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button android:id="@+id/btnLo" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:text="Ло" android:backgroundTint="#673AB7" android:layout_margin="4dp"/>
+        <Button android:id="@+id/btnKi" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:text="Ки" android:backgroundTint="#673AB7" android:layout_margin="4dp"/>
+        <Button android:id="@+id/btnNo" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:text="Но" android:backgroundTint="#673AB7" android:layout_margin="4dp"/>
+    </LinearLayout>
+
+    <!-- Пространство для обычных букв (системная клавиатура) -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="(Здесь будет обычная клавиатура)"
+        android:gravity="center"
+        android:textColor="#666"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btnBackspace"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="⌫ Стереть"
+        android:backgroundTint="#333333"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="8dp"/>
+</LinearLayout>

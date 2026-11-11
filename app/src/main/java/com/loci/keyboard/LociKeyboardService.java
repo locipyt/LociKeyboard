@@ -13,38 +13,27 @@ public class LociKeyboardService extends InputMethodService {
     
     private final Map<String, String> dictionary = new HashMap<>();
     private boolean isTranslateEnabled = true;
-    private boolean isRussian = true; // Текущий язык (RU/EN)
+    private boolean isRussian = true;
 
     private void initDictionary() {
-        // --- ПРИВЕТСТВИЯ ---
+        // Приветствия
         dictionary.put("привет", "Ло");
         dictionary.put("приветик", "Локи");
-        dictionary.put("здравствуй", "Ло");
-        dictionary.put("хай", "Ки Ло");
         dictionary.put("пока", "Ло Но");
         dictionary.put("до свидания", "Ло Но");
-        dictionary.put("спокойной ночи", "Луми Но");
-        dictionary.put("доброе утро", "Луми Ки");
         dictionary.put("спасибо", "Лока");
-        dictionary.put("пожалуйста", "Ки Лока");
         dictionary.put("извини", "Ми Кило");
-        dictionary.put("прости", "Ми Кило");
 
-        // --- ОТВЕТЫ ---
+        // Ответы
         dictionary.put("да", "Ки");
         dictionary.put("нет", "Но");
         dictionary.put("хорошо", "Лока");
         dictionary.put("плохо", "Кило");
         dictionary.put("круто", "Лока");
         dictionary.put("ужасно", "Кило Кило");
-        dictionary.put("может быть", "Моко");
         dictionary.put("не знаю", "Ми Но Кито");
-        dictionary.put("согласен", "Ми Ки");
-        dictionary.put("не хочу", "Ми Но Кои");
-        dictionary.put("окей", "Ки");
-        dictionary.put("конечно", "Ки Лока");
 
-        // --- МЕСТОИМЕНИЯ ---
+        // Местоимения
         dictionary.put("я", "Ми");
         dictionary.put("ты", "Ти");
         dictionary.put("он", "Ли");
@@ -52,105 +41,61 @@ public class LociKeyboardService extends InputMethodService {
         dictionary.put("мы", "Мили");
         dictionary.put("вы", "Тили");
         dictionary.put("они", "Лили");
-        dictionary.put("мой", "Ми");
-        dictionary.put("твой", "Ти");
-        dictionary.put("наш", "Мили");
 
-        // --- ЛЮДИ ---
+        // Люди
         dictionary.put("друг", "Или");
         dictionary.put("друзья", "Или");
         dictionary.put("учитель", "Учи");
         dictionary.put("фембой", "Кити");
-        dictionary.put("фембойчик", "Кити");
         dictionary.put("кошкодевочка", "Кико");
-        dictionary.put("кошкомальчик", "Кико");
         dictionary.put("котик", "Кико");
-        dictionary.put("коти", "Кико");
 
-        // --- ЧУВСТВА ---
+        // Чувства
         dictionary.put("люблю", "Кои");
         dictionary.put("нравится", "Кои");
-        dictionary.put("обожаю", "Кои Кои");
         dictionary.put("больно", "Боли");
         dictionary.put("устал", "Кило Сила");
-        dictionary.put("скучно", "Но Лок");
-        dictionary.put("счастлив", "Лока");
-        dictionary.put("злой", "Кило");
-        dictionary.put("грустно", "Кило");
-        dictionary.put("страшно", "Кило");
         dictionary.put("скучаю", "Ми Кои Ти");
         dictionary.put("хочу к тебе", "Ми Кои Ти");
-        dictionary.put("ты лучший", "Ти Лока Лока");
 
-        // --- МИЛЫЕ СЛОВА ---
+        // Милые слова
         dictionary.put("любимка", "Кои");
         dictionary.put("любимая", "Кои");
-        dictionary.put("любимый", "Кои");
         dictionary.put("зайка", "Лайка");
-        dictionary.put("зая", "Лайка");
         dictionary.put("солнышко", "Луми");
         dictionary.put("малышка", "Мило");
-        dictionary.put("малыш", "Мило");
         dictionary.put("родная", "Лило");
-        dictionary.put("родной", "Лило");
         dictionary.put("ангел", "Луми");
-        dictionary.put("красивая", "Лока Ли");
-        dictionary.put("красивый", "Лока Ли");
-        dictionary.put("милая", "Кити");
-        dictionary.put("милый", "Кити");
-        dictionary.put("самая лучшая", "Лока Лока");
         dictionary.put("киса", "Кико");
-        dictionary.put("кис", "Кико");
-        dictionary.put("буська", "Кои");
         dictionary.put("обнимаю", "Ми Кои Ти");
         dictionary.put("целую", "Ми Кои Ти");
-        dictionary.put("поцелую", "Ми Кои Ти");
 
-        // --- ДЕЙСТВИЯ ---
+        // Действия
         dictionary.put("идти", "Сити");
-        dictionary.put("идем", "Сити");
         dictionary.put("пойдем", "Сити");
-        dictionary.put("погнали", "Сити");
         dictionary.put("есть", "Ку");
         dictionary.put("кушать", "Ку");
-        dictionary.put("пить", "Вода");
         dictionary.put("спать", "Луми Но");
         dictionary.put("играть", "Кигра");
-        dictionary.put("игра", "Кигра");
         dictionary.put("дела", "Лок");
-        dictionary.put("работа", "Лок");
         dictionary.put("хочу есть", "Ми Кои Ку");
-        dictionary.put("хочу пить", "Ми Кои Вода");
-        dictionary.put("хочу спать", "Ми Кои Луми Но");
-        dictionary.put("иду домой", "Ми Сити Дом");
 
-        // --- ВОПРОСЫ ---
+        // Вопросы
         dictionary.put("где", "Кито");
         dictionary.put("как дела", "Лок Лока");
-        dictionary.put("как", "Кбк");
         dictionary.put("что", "Кито");
         dictionary.put("почему", "Кипо");
-        dictionary.put("где туалет", "Туалет Кито");
         dictionary.put("ты где", "Ти Кито");
-        dictionary.put("скоро буду", "Ми Скоро");
-        dictionary.put("как ты", "Ти Лока");
-        dictionary.put("что делаешь", "Ти Лок");
 
-        // --- ИГРЫ ---
+        // Игры
         dictionary.put("роблокс", "Роблокс");
         dictionary.put("майнкрафт", "Майн");
         dictionary.put("победа", "Вик");
-        dictionary.put("опасность", "Кило Лок");
-        dictionary.put("пойдем играть", "Мили Сити Кигра");
-        dictionary.put("я в роблоксе", "Ми Ин Роблокс");
-        dictionary.put("я в майне", "Ми Ин Майн");
-        dictionary.put("читер", "Кило Или");
 
-        // --- РУГАТЕЛЬСТВА ---
+        // Ругательства
         dictionary.put("дурак", "Кило Или");
         dictionary.put("тупой", "Но Лок");
         dictionary.put("отвали", "Сити Но");
-        dictionary.put("заткнись", "Но Ло");
     }
 
     @Override
@@ -159,13 +104,10 @@ public class LociKeyboardService extends InputMethodService {
 
         View view = getLayoutInflater().inflate(R.layout.keyboard_layout, null);
 
-        LinearLayout rowRu1 = view.findViewById(R.id.rowRu1);
-        LinearLayout rowRu2 = view.findViewById(R.id.rowRu2);
-        LinearLayout rowRu3 = view.findViewById(R.id.rowRu3);
-        LinearLayout rowEn1 = view.findViewById(R.id.rowEn1);
-        LinearLayout rowEn2 = view.findViewById(R.id.rowEn2);
-        LinearLayout rowEn3 = view.findViewById(R.id.rowEn3);
+        LinearLayout rowRu1 = view.findViewById(R.id.rowRu1); LinearLayout rowRu2 = view.findViewById(R.id.rowRu2); LinearLayout rowRu3 = view.findViewById(R.id.rowRu3);
+        LinearLayout rowEn1 = view.findViewById(R.id.rowEn1); LinearLayout rowEn2 = view.findViewById(R.id.rowEn2); LinearLayout rowEn3 = view.findViewById(R.id.rowEn3);
 
+        // Русские ID и буквы
         int[] ruIds = {
             R.id.k_й, R.id.k_ц, R.id.k_у, R.id.k_к, R.id.k_е, R.id.k_н, R.id.k_г, R.id.k_ш, R.id.k_щ, R.id.k_з, R.id.k_х, R.id.k_ъ,
             R.id.k_ф, R.id.k_ы, R.id.k_в, R.id.k_а, R.id.k_п, R.id.k_р, R.id.k_о, R.id.k_л, R.id.k_д, R.id.k_ж, R.id.k_э,
@@ -177,6 +119,7 @@ public class LociKeyboardService extends InputMethodService {
             "я", "ч", "с", "м", "и", "т", "ь", "б", "ю"
         };
 
+        // Английские ID и буквы
         int[] enIds = {
             R.id.e_q, R.id.e_w, R.id.e_e, R.id.e_r, R.id.e_t, R.id.e_y, R.id.e_u, R.id.e_i, R.id.e_o, R.id.e_p,
             R.id.e_a, R.id.e_s, R.id.e_d, R.id.e_f, R.id.e_g, R.id.e_h, R.id.e_j, R.id.e_k, R.id.e_l,
@@ -188,6 +131,7 @@ public class LociKeyboardService extends InputMethodService {
             "z", "x", "c", "v", "b", "n", "m"
         };
 
+        // Русские буквы
         for (int i = 0; i < ruIds.length; i++) {
             final String letter = ruLetters[i];
             view.findViewById(ruIds[i]).setOnClickListener(v -> {
@@ -196,6 +140,7 @@ public class LociKeyboardService extends InputMethodService {
             });
         }
 
+        // Английские буквы
         for (int i = 0; i < enIds.length; i++) {
             final String letter = enLetters[i];
             view.findViewById(enIds[i]).setOnClickListener(v -> {
@@ -204,7 +149,7 @@ public class LociKeyboardService extends InputMethodService {
             });
         }
 
-        // Смена языка
+        // Смена языка (Глобус)
         view.findViewById(R.id.btnLang).setOnClickListener(v -> {
             isRussian = !isRussian;
             if (isRussian) {
@@ -216,7 +161,7 @@ public class LociKeyboardService extends InputMethodService {
             }
         });
 
-        // Настройки (Переход в приложение)
+        // Настройки (Шестеренка) - открывает наше приложение
         view.findViewById(R.id.btnSettings).setOnClickListener(v -> {
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -229,16 +174,19 @@ public class LociKeyboardService extends InputMethodService {
             if (ic != null) ic.commitText("😊", 1);
         });
 
-        // Корзина (удаляет по 1 букве)
+        // Корзина (Удаляет ровно по одной букве)
         view.findViewById(R.id.btnBackspace).setOnClickListener(v -> {
             InputConnection ic = getCurrentInputConnection();
             if (ic != null) {
-                if (ic.getSelectedText(0) == null) ic.deleteSurroundingText(1, 0);
-                else ic.commitText("", 1);
+                if (ic.getSelectedText(0) == null) {
+                    ic.deleteSurroundingText(1, 0);
+                } else {
+                    ic.commitText("", 1);
+                }
             }
         });
 
-        // ПРОБЕЛ + ПЕРЕВОД
+        // ПРОБЕЛ (Перевод + пробел)
         View btnSpace = view.findViewById(R.id.btnSpace);
         btnSpace.setOnClickListener(v -> {
             InputConnection ic = getCurrentInputConnection();
@@ -262,10 +210,10 @@ public class LociKeyboardService extends InputMethodService {
             ic.commitText(" ", 1);
         });
 
-        // Долгое нажатие на пробел (Вкл/Выкл перевод)
+        // ДОЛГОЕ НАЖАТИЕ НА ПРОБЕЛ (Вкл/Выкл перевод)
         btnSpace.setOnLongClickListener(v -> {
             isTranslateEnabled = !isTranslateEnabled;
-            Toast.makeText(this, isTranslateEnabled ? "Перевод ВКЛ" : "Перевод ВЫКЛ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, isTranslateEnabled ? "Автоперевод ВКЛ" : "Автоперевод ВЫКЛ", Toast.LENGTH_SHORT).show();
             return true;
         });
 

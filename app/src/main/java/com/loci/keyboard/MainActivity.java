@@ -1,15 +1,18 @@
 package com.loci.keyboard;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
+import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,13 +20,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Создаем красивый интерфейс программно
+        // Создаем интерфейс
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setPadding(60, 60, 60, 60);
-        layout.setBackgroundColor(0xFF1A0B2E); // Темно-фиолетовый фон
+        layout.setBackgroundColor(0xFF1A0B2E);
 
-        // Заголовок
         TextView title = new TextView(this);
         title.setText("Loci Keyboard");
         title.setTextColor(0xFFFFFFFF);
@@ -31,46 +33,60 @@ public class MainActivity extends AppCompatActivity {
         title.setPadding(0, 0, 0, 30);
         layout.addView(title);
 
-        // Инструкция
         TextView info = new TextView(this);
-        info.setText("1. Нажми 'Включить клавиатуру' ниже.\n2. В открывшемся списке найди Loci Keyboard и включи тумблер.\n3. Нажми 'Выбрать клавиатуру' и выбери Loci.\n\nДолгое нажатие на пробел в клавиатуре - включение/отключение автоперевода.");
         info.setTextColor(0xFFA0A0A0);
         info.setTextSize(16);
         info.setPadding(0, 0, 0, 40);
         layout.addView(info);
 
-        // Кнопка включения (открывает системные настройки)
         Button btnEnable = new Button(this);
         btnEnable.setText("Включить клавиатуру в системе");
-        btnEnable.setBackgroundColor(0xFF673AB7); // Фиолетовый
+        btnEnable.setBackgroundColor(0xFF673AB7);
         btnEnable.setTextColor(0xFFFFFFFF);
         btnEnable.setOnClickListener(v -> {
             Intent intent = new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS);
             startActivity(intent);
-            Toast.makeText(this, "Найди Loci Keyboard и включи её", Toast.LENGTH_LONG).show();
         });
         layout.addView(btnEnable);
 
-        // Кнопка смены клавиатуры (вызывает меню выбора)
         Button btnSwitch = new Button(this);
         btnSwitch.setText("Сменить клавиатуру сейчас");
-        btnSwitch.setBackgroundColor(0xFF2196F3); // Синий
+        btnSwitch.setBackgroundColor(0xFF2196F3);
         btnSwitch.setTextColor(0xFFFFFFFF);
         btnSwitch.setOnClickListener(v -> {
             InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             if (imm != null) {
-                imm.showInputMethodPicker(); // Вызывает системное меню выбора клавиатуры
+                imm.showInputMethodPicker();
             }
         });
         layout.addView(btnSwitch);
 
         setContentView(layout);
 
-        // При первом запуске автоматически открываем настройки
-        if (savedInstanceState == null) {
+        // --- ПРОВЕРКА: ВКЛЮЧЕНА ЛИ КЛАВИАТУРА ---
+        if (isKeyboardEnabled()) {
+            // Если включена - показываем, что все ок
+            info.setText("Статус: Клавиатура включена.\n\nИнструкция:\n1. Выбери Loci Keyboard при вводе текста (через глобус 🌐).\n2. Долгое нажатие на пробел - вкл/выкл перевод.");
+            btnEnable.setVisibility(View.GONE); // Скрываем кнопку включения, она не нужна
+            Toast.makeText(this, "Клавиатура готова к работе!", Toast.LENGTH_SHORT).show();
+        } else {
+            // Если не включена - показываем инструкцию и перекидываем в настройки
+            info.setText("Статус: Клавиатура выключена.\n\n1. Нажми 'Включить клавиатуру' ниже.\n2. Найди Loci Keyboard в списке и включи её.");
             Intent intent = new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS);
             startActivity(intent);
-            Toast.makeText(this, "Включи Loci Keyboard в списке", Toast.LENGTH_LONG).show();
         }
+    }
+
+    // Метод проверки: есть ли наша клавиатура в списке включенных
+    private boolean isKeyboardEnabled() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        List<InputMethodInfo> methodList = imm.getEnabledInputMethodList();
+        
+        for (InputMethodInfo method : methodList) {
+            if (method.getPackageName().equals(getPackageName())) {
+                return true; // Нашли нашу клавиатуру в списке включенных
+            }
+        }
+        return false; // Не нашли
     }
 }

@@ -4,89 +4,169 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private LinearLayout root;
+    private TextView statusView;
+    private Button enableButton;
+    private Button selectButton;
+    private Button resetButton;
+    private TextView infoView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Создаем интерфейс
-        LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setPadding(60, 60, 60, 60);
-        layout.setBackgroundColor(0xFF1A0B2E);
+        // Корневой скролл
+        ScrollView scroll = new ScrollView(this);
+        root = new LinearLayout(this);
+        root.setOrientation(LinearLayout.VERTICAL);
+        root.setPadding(dp(20), dp(20), dp(20), dp(20));
+        root.setBackgroundColor(0xFF1A0B2E);
+        scroll.addView(root);
 
+        // Заголовок
         TextView title = new TextView(this);
         title.setText("Loci Keyboard");
         title.setTextColor(0xFFFFFFFF);
         title.setTextSize(28);
-        title.setPadding(0, 0, 0, 30);
-        layout.addView(title);
+        title.setGravity(Gravity.CENTER);
+        title.setPadding(0, 0, 0, dp(20));
+        root.addView(title);
 
-        TextView info = new TextView(this);
-        info.setTextColor(0xFFA0A0A0);
-        info.setTextSize(16);
-        info.setPadding(0, 0, 0, 40);
-        layout.addView(info);
+        // Статус
+        statusView = new TextView(this);
+        statusView.setTextColor(0xFFB0A0D0);
+        statusView.setTextSize(16);
+        statusView.setGravity(Gravity.CENTER);
+        statusView.setPadding(0, 0, 0, dp(20));
+        root.addView(statusView);
 
-        Button btnEnable = new Button(this);
-        btnEnable.setText("Включить клавиатуру в системе");
-        btnEnable.setBackgroundColor(0xFF673AB7);
-        btnEnable.setTextColor(0xFFFFFFFF);
-        btnEnable.setOnClickListener(v -> {
-            Intent intent = new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS);
-            startActivity(intent);
+        // Кнопка "Включить клавиатуру"
+        enableButton = makeButton("Включить клавиатуру");
+        enableButton.setOnClickListener(v -> {
+            startActivity(new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS));
         });
-        layout.addView(btnEnable);
+        root.addView(enableButton);
 
-        Button btnSwitch = new Button(this);
-        btnSwitch.setText("Сменить клавиатуру сейчас");
-        btnSwitch.setBackgroundColor(0xFF2196F3);
-        btnSwitch.setTextColor(0xFFFFFFFF);
-        btnSwitch.setOnClickListener(v -> {
-            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            if (imm != null) {
-                imm.showInputMethodPicker();
+        // Кнопка "Выбрать клавиатуру"
+        selectButton = makeButton("Выбрать клавиатуру");
+        selectButton.setOnClickListener(v -> {
+            InputMethodManager imm =
+                    (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showInputMethodPicker();
+        });
+        root.addView(selectButton);
+
+        // Разделитель
+        root.addView(makeSeparator());
+
+        // Инфо-блок
+        infoView = new TextView(this);
+        infoView.setTextColor(0xFFB0A0D0);
+        infoView.setTextSize(14);
+        infoView.setPadding(0, dp(10), 0, dp(10));
+        infoView.setText(
+                "Клавиатура Loci:\n" +
+                "• Кнопка ⚙ — открывает это меню.\n" +
+                "• Кнопка 🌐 — переключение языка.\n" +
+                "• Кнопка 123 — режим цифр.\n" +
+                "• Кнопка ⌫ — удаление; зажми для удаления слова.\n" +
+                "• Кнопка ⏎ — перенос строки.\n" +
+                "• Кнопка 😊 — панель смайликов.\n" +
+                "• Кнопка 📋 — копировать выделенное.\n" +
+                "• Кнопка 📥 — вставить из буфера.\n" +
+                "• Пробел — перевод слов из словаря; зажми для вкл/выкл перевода."
+        );
+        root.addView(infoView);
+
+        // Кнопка сброса (просто перезапускает приложение)
+        resetButton = makeButton("Сбросить настройки");
+        resetButton.setOnClickListener(v -> {
+            Toast.makeText(this, "Настройки сброшены", Toast.LENGTH_SHORT).show();
+            recreate();
+        });
+        root.addView(resetButton);
+
+        setContentView(scroll);
+        updateStatus();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateStatus();
+    }
+
+    /** Проверяет, включена ли наша клавиатура и выбрана ли она. */
+    private void updateStatus() {
+        InputMethodManager imm =
+                (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        List<InputMethodInfo> methods = imm.getEnabledInputMethodList();
+
+        boolean enabled = false;
+        String myId = getPackageName() + "/.LociKeyboardService";
+        for (InputMethodInfo info : methods) {
+            if (info.getId().equals(myId)) {
+                enabled = true;
+                break;
             }
-        });
-        layout.addView(btnSwitch);
+        }
 
-        setContentView(layout);
-
-        // --- ПРОВЕРКА: ВКЛЮЧЕНА ЛИ КЛАВИАТУРА ---
-        if (isKeyboardEnabled()) {
-            // Если включена - показываем, что все ок
-            info.setText("Статус: Клавиатура включена.\n\nИнструкция:\n1. Выбери Loci Keyboard при вводе текста (через глобус 🌐).\n2. Долгое нажатие на пробел - вкл/выкл перевод.");
-            btnEnable.setVisibility(View.GONE); // Скрываем кнопку включения, она не нужна
-            Toast.makeText(this, "Клавиатура готова к работе!", Toast.LENGTH_SHORT).show();
+        if (!enabled) {
+            statusView.setText("❌ Клавиатура отключена");
+            statusView.setTextColor(0xFFFF5252);
+            enableButton.setEnabled(true);
+            selectButton.setEnabled(false);
         } else {
-            // Если не включена - показываем инструкцию и перекидываем в настройки
-            info.setText("Статус: Клавиатура выключена.\n\n1. Нажми 'Включить клавиатуру' ниже.\n2. Найди Loci Keyboard в списке и включи её.");
-            Intent intent = new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS);
-            startActivity(intent);
+            statusView.setText("✅ Клавиатура включена");
+            statusView.setTextColor(0xFF4CAF50);
+            enableButton.setEnabled(true);
+            selectButton.setEnabled(true);
         }
     }
 
-    // Метод проверки: есть ли наша клавиатура в списке включенных
-    private boolean isKeyboardEnabled() {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        List<InputMethodInfo> methodList = imm.getEnabledInputMethodList();
-        
-        for (InputMethodInfo method : methodList) {
-            if (method.getPackageName().equals(getPackageName())) {
-                return true; // Нашли нашу клавиатуру в списке включенных
-            }
-        }
-        return false; // Не нашли
+    // ---- Хелперы ----
+
+    private Button makeButton(String text) {
+        Button b = new Button(this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                dp(56));
+        lp.setMargins(0, dp(6), 0, dp(6));
+        b.setLayoutParams(lp);
+        b.setText(text);
+        b.setTextSize(16);
+        b.setTextColor(0xFFFFFFFF);
+        b.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF9C27B0));
+        return b;
+    }
+
+    private View makeSeparator() {
+        View v = new View(this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, dp(1));
+        lp.setMargins(0, dp(20), 0, dp(20));
+        v.setLayoutParams(lp);
+        v.setBackgroundColor(0xFF3A2B5E);
+        return v;
+    }
+
+    private int dp(int px) {
+        return (int) (px * getResources().getDisplayMetrics().density);
     }
 }
